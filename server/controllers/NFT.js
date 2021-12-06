@@ -143,33 +143,6 @@ const deleteNFT = (request, response) => {
   });
 };
 
-
-
-// Our retrieval handler.
-const retrieveFile = (req, res) => {
-  if (!req.query.fileName) {
-    return res.status(400).json({ error: 'Missing File Name! ' });
-  }
-
-  return Item.ItemModel.findOne({ name: req.query.fileName }, (error, doc) => {
-    // If there is an error, log it and send a 400 back to the client.
-    if (error) {
-      console.dir(error);
-      return res.status(400).json({ error: 'An error occured retrieving the file. ' });
-    }
-
-    // If no file with that name is found, but the search is successful, an error will not be
-    // thrown. Instead, we will simply not recieve and error or a doc back. In that case, we
-    // want to tell the user that the file they were looking for could not be found.
-    if (!doc.image) {
-      return res.status(404).json({ error: 'File not found' });
-    }
-
-    res.writeHead(200, { 'Content-Type': doc.image.mimetype, 'Content-Length': doc.image.size });
-    return res.end(doc.image.data);
-  });
-};
-
 module.exports.makerPage = makerPage;
 module.exports.shopPage = shopPage;
 module.exports.forSale = forSale;
@@ -178,4 +151,3 @@ module.exports.make = makeNFT;
 module.exports.getNFTs = getNFTs;
 module.exports.getNFTsForSale = getNFTsForSale;
 module.exports.delete = deleteNFT;
-module.exports.retrieveFile = retrieveFile;

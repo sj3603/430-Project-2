@@ -20,7 +20,6 @@ const router = (app) => {
   app.get('/shop', mid.requiresLogin, controllers.NFT.shopPage);
   app.post('/shop', mid.requiresLogin, controllers.NFT.buy);
   app.delete('/delete', mid.requiresLogin, controllers.NFT.delete);
-  app.get('/retrieve', mid.requiresLogin,controllers.NFT.retrieveFile);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 
