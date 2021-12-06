@@ -99,7 +99,8 @@ const resetPassword = (request, response) => {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
-  return Account.AccountModel.authenticate(req.body.username, req.body.currentPass, (err, account) => {
+  return Account.AccountModel.authenticate(req.body.username, req.body.currentPass, 
+    (err, account) => {
     if (err || !account) {
       return res.status(401).json({ error: 'Wrong username or password' });
     }
