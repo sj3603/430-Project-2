@@ -24,6 +24,11 @@ const AccountSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  balance: {
+    type: Number,
+    min: 0,
+    required: true,
+  },
   createdDate: {
     type: Date,
     default: Date.now,
@@ -33,6 +38,7 @@ const AccountSchema = new mongoose.Schema({
 AccountSchema.statics.toAPI = (doc) => ({
   // _id is built into your mongo document and is guaranteed to be unique
   username: doc.username,
+  balance: doc.balance,
   _id: doc._id,
 });
 

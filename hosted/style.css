@@ -1,9 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Cute+Font&display=swap');
+
 html, body {
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    font-family: 'Cute Font', cursive;
+    background-color: #F7C59F;
 }
 
 #logo {
@@ -16,8 +20,8 @@ html, body {
 
 nav {
     width: 100%;
-    height: 50px;
-    background-color: #55acee;
+    height: 60px;
+    background-color: #C05858;
 }
 
 nav:nth-child(1) {
@@ -29,65 +33,74 @@ nav:nth-child(1) {
     padding-top: 12px;
     padding-left: 20px;
     color: white;
-    font-size: 1.3em;
+    font-size: 1.8em;
     float: left;
 }
 
 .navlink a, .navlink a:link, .navlink a:visited, .navlink a:hover, .navlink a:active {
-    color: white;
+    color: #3b55e9;
     text-decoration: none;
     padding: 5px;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #C05858;
     transition: background-color 0.4s ease;
 }
 
 .navlink a:hover {
     transition: background-color 0.8s ease;
-    background-color: #66bdff;
+    background-color: #b66a6a;
 }
 
-.domoForm {
-    border: 2px solid #338acc;
+.nftForm {
+    border: 2px solid #b66a6a;
     height: 35px;
     width: 965px;
     margin-top:0px;
     padding-top:10px;
-    background-color: #55acee;
+    background-color: #C05858;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
 }
 
-.domoForm label {
+.nftForm label {
     display: inline-block;
     width: 75px;
     margin-left: 10px;
-    font-size: 1.2em;
+    font-size: 1.5em;
     float: left;
-    color: white;
+    color: #3b55e9;
 }
 
-.domoForm input[type=text] {
+#balanceForm label {
+    display: inline-block;
+    width: 130px;
+    margin-left: 10px;
+    font-size: 1.5em;
+    float: left;
+    color: #3b55e9;
+}
+
+.nftForm input[type=text] {
     float:left;
 }
 
-.makeDomoSubmit {
+.makeNFTSubmit {
     transition: background-color 0.4s ease;
     display: inline;
     width: 90px;
-    background-color: #55acee;
+    background-color: #C05858;
     border-radius: 2px;
     color: white;
     text-decoration: none;
 }
 
-.makeDomoSubmit:link, .makeDomoSubmit:visited, .makeDomoSubmit:hover, .makeDomoSubmit:active {
+.makeNFTSubmit:link, .makeNFTSubmit:visited, .makeNFTSubmit:hover, .makeNFTSubmit:active {
     color: white;
 }
 
-.makeDomoSubmit:hover {
+.makeNFTSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #b66a6a;
 }
 
 .mainForm {
@@ -118,9 +131,9 @@ nav:nth-child(1) {
     margin-top: 14px;
     font-size: 1.2em;
     width: 100px;
-    background-color: #55acee;
+    background-color: #C05858;
     border-radius: 2px;
-    border-color: #66acee;
+    border-color: #b66a6a;
     padding: 3px 0px;
     color: white;
     text-decoration: none;
@@ -132,22 +145,22 @@ nav:nth-child(1) {
 
 .formSubmit:hover {
     transition: background-color 0.4s ease;
-    background-color: #338acc;
+    background-color: #b66a6a;
 }
 
-#user, #pass, #pass2 {
+#user, #pass, #pass2, #currentPass {
     text-align: center;
     font-size: 1.1em;
     width: 180px;
     border-radius: 6px;
 }
 
-#user:focus, #pass:focus, #pass2:focus {
+#user:focus, #pass:focus, #pass2:focus, #currentPass:focus {
     outline: none;
-    box-shadow: 0px 0px 1px 1px #55acee;
+    box-shadow: 0px 0px 1px 1px #C05858;
 }
 
-#domoMessage {
+#nftMessage {
     display:none;
     top: 250px;
     width: 250px;
@@ -158,7 +171,7 @@ nav:nth-child(1) {
     overflow: hidden;
 }
 
-#domoMessage h3 {
+#nftMessage h3 {
     width: 200px;
     position: absolute;
     top: 0px;
@@ -178,7 +191,7 @@ nav:nth-child(1) {
     font-style: italic;
 }
 
-#domo {
+#nft {
     z-index: 225;
     margin-top: -20px;
     margin-left: 135px;
@@ -189,36 +202,71 @@ nav:nth-child(1) {
     transform: rotate(330deg);
 }
 
-#domos {
-    width: 40%;
+#nfts {
+    width: 80%;
     min-width: 400px;
-    border: 2px solid #55acee;
+    border: 2px solid #C05858;
     border-radius: 4px;
     margin: 0 auto;
     margin-top: 100px;
 }
 
-.domo {
-    width: 95%;
+.nftList {
+    display: grid; 
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-columns: 1fr;
+    grid-auto-rows: 1fr; 
+    gap: 0px 0px; 
+}
+
+.nft {
+    width: 300px;
+    height: 250px;
     margin: 0 auto;
     margin-top: 2px;
     margin-bottom: 2px;
-    border: 2px solid #55acee;
+    border: 2px solid #C05858;
     border-radius: 4px;
-    background-color: #55acee;
+    background-color: #C05858;
     padding: 10px;
     min-height:60px;
     overflow: hidden;
+    color:#12130F;
 }
 
-.domo:hover {
+h1{
+    color:#3b4cac;
+    text-align: center;
+    font-size: 2em;
+    margin:0px;
+    height:5px;
+}
+
+#accountInfo{
+    text-align: right;
+}
+
+#accountInfo label {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 1.5em;
+    float: right;
+    color: #3b55e9;
+}
+
+.flexboxContainer{
+    /* display: flex; */
+    flex-direction: column;
+}
+
+.nft:hover {
     transition: border-color 0.2s ease-out;
     border-color: rgba(255,255,255, 0.8);
     transition: background-color 2.6s ease-out;
-    background-color: #66bfff;
+    background-color: #b66a6a;
 }
 
-img.domoFace {
+img.nftFace {
     margin-left: 25px;
     margin-right: 10px;
     height: 50px;
@@ -228,7 +276,7 @@ img.domoFace {
     float:left;
 }
 
-h3.emptyDomo {
+h3.emptyNFT {
     width: 400px;
     font-size: 1.5em;
     margin: 0 auto;
@@ -236,15 +284,15 @@ h3.emptyDomo {
     margin-top: 18px;
 }
 
-h3.domoName {
+h3.nftName {
     float:left;
     width: 200px;
     font-weight: bold;
     padding-left: 65px;
-    font-size: 1.5em;
+    font-size: 1.9em;
 }
 
-h3.domoAge {
+h3.nftValue {
     float:right;
     text-align: left;
     width: 100px;
@@ -253,7 +301,7 @@ h3.domoAge {
     font-size: 1.5em;
 }
 
-h3.domoGender {
+h3.nftForSale {
     float:right;
     text-align: left;
     width: 100px;
@@ -262,10 +310,10 @@ h3.domoGender {
     font-size: 1.5em;
 }
 
-.domo:first-child {
+.nft:first-child {
     margin-top: 10px;
 }
 
-.domo:last-child {
+.nft:last-child {
     margin-bottom:10px;
 }

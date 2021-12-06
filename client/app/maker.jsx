@@ -1,143 +1,162 @@
-let csrfSaved;
-const handleDomo = (e) => {
+// handles creating a new nft for the user by sending a post request to the server with the given nft info
+const handleNFT = (e) => {
     e.preventDefault();
 
-    $("#domoMessage").animate({ width: 'hide' }, 350);
+    $("#nftMessage").animate({ width: 'hide' }, 350);
 
-    if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoGender").val() == '') {
-        handleError("RAWR! All fields are required!");
+    if ($("#nftName").val() == '' || $("#nftValue").val() == '') {
+        handleError("All fields are required bromosapien!");
         return false;
     }
 
-    sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-        loadDomosFromServer();
+    sendAjax('POST', $("#nftForm").attr("action"), $("#nftForm").serialize(), function () {
+        loadNFTsFromServer();
     });
 
     return false;
 };
 
+// handles deleting a given nft for the user by sending a delete request to the server with the given nft info
 const handleDelete = (e) => {
     e.preventDefault();
 
-    $("#domoMessage").animate({ width: 'hide' }, 350);
+    $("#nftMessage").animate({ width: 'hide' }, 350);
 
-    sendAjax('DELETE', $("#domoDeleteForm").attr("action"), $("#domoDeleteForm").serialize(), function () {
-        loadDomosFromServer();
+    sendAjax('DELETE', $("#nftDeleteForm").attr("action"), { _id: e.target._id.value, _csrf: e.target._csrf.value }, function () {
+        loadNFTsFromServer();
     });
 
     return false;
 };
 
+// handles setting an nft to "for sale" for the user by sending a post request to the server with the given nft info
 const handleForSale = (e) => {
     e.preventDefault();
 
-    $("#domoMessage").animate({ width: 'hide' }, 350);
+    $("#nftMessage").animate({ width: 'hide' }, 350);
 
-    sendAjax('POST', $("#domoForSaleForm").attr("action"), $("#domoForSaleForm").serialize(), function () {
-        loadDomosFromServer();
-        setup(csrfSaved);
+    sendAjax('POST', $("#nftForSaleForm").attr("action"), { _id: e.target._id.value, _csrf: e.target._csrf.value }, function () {
+        loadNFTsFromServer();
     });
 
     return false;
 };
 
-const DomoForm = (props) => {
+// the nft maker form React component
+const NFTForm = (props) => {
     return (
-        <form id="domoForm"
-            onSubmit={handleDomo}
-            name="domoForm"
+        <form id="nftForm"
+            onSubmit={handleNFT}
+            name="nftForm"
             action="/maker"
             method="POST"
-            className="domoForm"
+            encType="multipart/form-data"
+            className="nftForm"
         >
             <label htmlFor="name">Name: </label>
-            <input id="domoName" type="text" name="name" placeholder="Domo Name" />
-            <label htmlFor="age">Age: </label>
-            <input id="domoAge" type="text" name="age" placeholder="Domo Age" />
-            <label htmlFor="gender">Gender: </label>
-            <select id="domoGender" name="gender" placeholder="Domo Gender">
-                <option disabled defaultValue hidden>Domo Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
+            <input id="nftName" type="text" name="name" placeholder="NFT Name" />
+            <label htmlFor="value">Value: </label>
+            <input id="nftValue" type="text" name="value" placeholder="NFT Value" />
+            {/* <label htmlFor="sampleFile">NFT Image: </label>
+            <input id="nftImage" type="file" onChange={onFileChange} name="sampleFile" /> */}
             <input type="hidden" name="_csrf" value={props.csrf} />
-            <input className="makeDomoSubmit" type="submit" value="Make Domo" />
+            <input className="makeNFTSubmit" type="submit" value="Make NFT" />
         </form>
     );
 };
 
-const DomoList = function (props) {
-    if (props.domos.length === 0) {
+const onFileChange = (e) => {
+    e.preventDefault();
+};
+
+// the nft list React component
+const NFTList = function (props) {
+    if (props.nfts.length === 0) {
         return (
-            <div className="domoList">
-                <h3 className="emptyDomo">No Domos Yet</h3>
+            <div className="nftList">
+                <h3 className="emptyNFT">No NFTs Yet</h3>
             </div>
         );
     }
 
-    const domoNodes = props.domos.map(function (domo) {
+    const nftNodes = props.nfts.map(function (nft) {
+        let imageSource = `/retrieve?fileName=${nft.name}`;
         return (
-            <div key={domo._id} className="domo">
-                <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
-                <h3 className="domoName">Name: {domo.name}</h3>
-                <h3 className="domoAge">Age: {domo.age}</h3>
-                <h3 className="domoGender">Gender: {domo.gender}</h3>
-                <h3 className="domoGender">For Sale: {(domo.forSale===1)?'true':'false'}</h3>
-                <form id="domoDeleteForm"
+            <div key={nft._id} className="nft">
+                <img src="/assets/img/nftface.jpeg" alt="nft face" className="nftFace" />
+                <h3 className="nftName">Name: {nft.name}</h3>
+                <h3 className="nftValue">Value: {nft.value}</h3>
+                <h3 className="nftForSale">For Sale: {(nft.forSale === 1) ? 'Yes' : 'No'}</h3>
+                <form id="nftDeleteForm"
                     onSubmit={handleDelete}
-                    name="domoDeleteForm"
+                    name="nftDeleteForm"
                     action="/delete"
                     method="DELETE">
-                <input className="makeDomoSubmit" type="submit" value="Delete Domo" />
-                <input type ="hidden" name="_id" value={domo._id} />
-                <input type ="hidden" name="_csrf" value={props.csrf} />
+                    <input className="makeNFTSubmit" type="submit" value="Delete NFT" />
+                    <input type="hidden" name="_id" value={nft._id} />
+                    <input type="hidden" name="_csrf" value={props.csrf} />
                 </form>
-                <form id="domoForSaleForm"
+                <form id="nftForSaleForm"
                     onSubmit={handleForSale}
-                    name="domoForSaleForm"
+                    name="nftForSaleForm"
                     action="/forSale"
                     method="POST">
-                <input className="makeDomoSubmit" type="submit" value="Sell Domo" />
-                <input type ="hidden" name="_id" value={domo._id} />
-                <input type ="hidden" name="_csrf" value={props.csrf} />
+                    <input className="makeNFTSubmit" type="submit" value="Sell NFT" />
+                    <input type="hidden" id="nftID" name="_id" value={nft._id} />
+                    <input type="hidden" name="_csrf" value={props.csrf} />
                 </form>
             </div>
         );
     });
 
     return (
-        <div className="domoList">
-            {domoNodes}
+        <div className="nftList">
+            {nftNodes}
         </div>
     );
 };
 
-const loadDomosFromServer = () => {
-    sendAjax('GET', '/getDomos', null, (data) => {
-        ReactDOM.render(
-            <DomoList domos={data.domos} csrf={csrfSaved}/>, document.querySelector("#domos")
-        );
+// gets the nfts from the server and rerenders the nft list
+const loadNFTsFromServer = () => {
+    sendAjax('GET', '/getToken', null, (result) => {
+        sendAjax('GET', '/getNFTs', null, (data) => {
+            ReactDOM.render(
+                <NFTList nfts={data.nfts} csrf={result.csrfToken} />, document.querySelector("#nfts")
+            );
+        });
     });
 };
 
+// sets up the page by rendering the nft form and list before calling loadNFTsFromServer
 const setup = function (csrf) {
     ReactDOM.render(
-        <DomoForm csrf={csrf} />, document.querySelector("#makeDomo")
+        <NFTForm csrf={csrf} />, document.querySelector("#makeNFT")
     );
 
     ReactDOM.render(
-        <DomoList domos={[]} />, document.querySelector("#domos")
+        <NFTList nfts={[]} />, document.querySelector("#nfts")
     );
-    loadDomosFromServer();
+    loadNFTsFromServer();
+};
+
+// gets the user information to render on the page
+const getUser = () => {
+    sendAjax('GET', '/getUser', null, (data) => {
+        ReactDOM.render(
+            <label>Welcome {data.user.username}!
+                <br /> Balance: {data.user.balance} ETH</label>
+            , document.querySelector("#accountInfo")
+        );
+    });
 };
 
 const getToken = () => {
     sendAjax('GET', '/getToken', null, (result) => {
         setup(result.csrfToken);
-        csrfSaved = result.csrfToken;
     });
 };
 
 $(document).ready(function () {
+    getUser();
     getToken();
 });
