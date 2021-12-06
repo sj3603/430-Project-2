@@ -129,7 +129,6 @@ const resetPassword = (request, response) => {
 
 // adds value to the balance of the user logged in
 const addValue = (req, res) => {
-  console.log(req.session.account._id);
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
     if (err) {
       return res.status(500).json({ error: 'An Error occured' });
@@ -139,7 +138,7 @@ const addValue = (req, res) => {
     }
 
     let account = doc;
-    let intBalance = parseInt(req.body.addBalance);
+    let intBalance = parseInt(req.body.addBalance, 10);
     account.balance += intBalance;
 
     account.save().then(() => res.status(200));
@@ -149,7 +148,6 @@ const addValue = (req, res) => {
 
 // adds value to the balance of the previous owner of a purchased nft
 const addOtherValue = (req, res) => {
-  console.log(req.body);
   Account.AccountModel.findOne({ _id: req.body._id }, (err, doc) => {
     if (err) {
       return res.status(500).json({ error: 'An Error occured' });
@@ -158,9 +156,8 @@ const addOtherValue = (req, res) => {
       return res.status(404).json({ error: 'Account Not Found' });
     }
 
-    let account = doc;
-    console.log(account);
-    let intBalance = parseInt(req.body.addBalance);
+    let account = doc;;
+    let intBalance = parseInt(req.body.addBalance, 10);
     account.balance += intBalance;
 
     account.save().then(() => res.status(200));
@@ -170,8 +167,6 @@ const addOtherValue = (req, res) => {
 
 // gets the information of the currently logged in user
 const getUser = (req, res) => {
-  //console.log(req.session.account);
-
   Account.AccountModel.findOne({ _id: req.session.account._id }, (err, doc) => {
     if (err) {
       return res.status(500).json({ error: 'An Error occured' });
